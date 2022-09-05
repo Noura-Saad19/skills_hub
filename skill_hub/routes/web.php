@@ -40,6 +40,58 @@ Route::prefix('dashboard')->middleware(['auth', 'verified', 'can-enter-dashboard
     Route::post('/categories/store', [\App\Http\Controllers\Admin\AdminCatController::class, 'store']);
     Route::get('/categories/delete/{cat}', [\App\Http\Controllers\Admin\AdminCatController::class, 'delete']);
     Route::post('/categories/update', [\App\Http\Controllers\Admin\AdminCatController::class, 'update']);
+    Route::get('/categories/toggle/{cat}', [\App\Http\Controllers\Admin\AdminCatController::class, 'toggle']);
+
+
+    Route::get('/skills', [\App\Http\Controllers\Admin\AdminSkillController::class, 'index']);
+    Route::post('/skills/store', [\App\Http\Controllers\Admin\AdminSkillController::class, 'store']);
+    Route::get('/skills/delete/{skill}', [\App\Http\Controllers\Admin\AdminSkillController::class, 'delete']);
+    Route::post('/skills/update', [\App\Http\Controllers\Admin\AdminSkillController::class, 'update']);
+    Route::get('/skills/toggle/{skill}', [\App\Http\Controllers\Admin\AdminSkillController::class, 'toggle']);
+
+
+    Route::get('/exams', [\App\Http\Controllers\Admin\AdminExamController::class, 'index']);
+    Route::get('/exams/show/{exam}', [\App\Http\Controllers\Admin\AdminExamController::class, 'show']);
+    Route::get('/exams/show-questions/{exam}', [\App\Http\Controllers\Admin\AdminExamController::class, 'showQuestions']);
+    Route::get('/exams/create', [\App\Http\Controllers\Admin\AdminExamController::class, 'create']);
+    Route::post('/exams/store', [\App\Http\Controllers\Admin\AdminExamController::class, 'store']);
+    Route::get('/exams/create-questions/{exam}', [\App\Http\Controllers\Admin\AdminExamController::class, 'createQuestions']);
+    Route::post('/exams/store-questions/{exam}', [\App\Http\Controllers\Admin\AdminExamController::class, 'storeQuestions']);
+    Route::get('/exams/edit/{exam}', [\App\Http\Controllers\Admin\AdminExamController::class, 'edit']);
+
+    Route::post('/exams/update/{exam}', [\App\Http\Controllers\Admin\AdminExamController::class, 'update']);
+
+    Route::get('/exams/edit-questions/{exam}/{question}', [\App\Http\Controllers\Admin\AdminExamController::class, 'editQuestions']);
+    Route::post('/exams/update-questions/{exam}/{question}', [\App\Http\Controllers\Admin\AdminExamController::class, 'updateQuestions']);
+
+
+    Route::get('/exams/delete/{exam}', [\App\Http\Controllers\Admin\AdminExamController::class, 'delete']);
+    Route::post('/exams/update', [\App\Http\Controllers\Admin\AdminExamController::class, 'update']);
+    Route::get('/exams/toggle/{exam}', [\App\Http\Controllers\Admin\AdminExamController::class, 'toggle']);
+
+    Route::get('/students', [\App\Http\Controllers\Admin\AdminStudentController::class, 'index']);
+    Route::get('/students/show-scores/{id}', [\App\Http\Controllers\Admin\AdminStudentController::class, 'showScores']);
+
+    Route::get('/students/open-exam/{studentId}/{examId}', [\App\Http\Controllers\Admin\AdminStudentController::class, 'openExam']);
+    Route::get('/students/close-exam/{studentId}/{examId}', [\App\Http\Controllers\Admin\AdminStudentController::class, 'closeExam']);
+
+
+    Route::middleware('superadmin')->group(function () {
+        Route::get('/admins', [\App\Http\Controllers\Admin\AdminController::class, 'index']);
+        Route::get('/admins/create', [\App\Http\Controllers\Admin\AdminController::class, 'create']);
+        Route::post('/admins/store', [\App\Http\Controllers\Admin\AdminController::class, 'store']);
+        Route::get('/admins/promote/{id}', [\App\Http\Controllers\Admin\AdminController::class, 'promote']);
+        Route::get('/admins/demote/{id}', [\App\Http\Controllers\Admin\AdminController::class, 'demote']);
+        Route::get('/admins/delete/{user}', [\App\Http\Controllers\Admin\AdminController::class, 'delete']);
+
+    });
+
+    Route::get('/messages', [\App\Http\Controllers\Admin\MessageController::class, 'index']);
+    Route::get('/messages/show/{message}', [\App\Http\Controllers\Admin\MessageController::class, 'show']);
+    Route::post('/messages/response/{message}', [\App\Http\Controllers\Admin\MessageController::class, 'response']);
+
+
+
 
 });
 

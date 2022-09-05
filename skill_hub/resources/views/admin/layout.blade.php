@@ -72,26 +72,56 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 <i class="right fas fa-angle-left"></i>
                             </p>
                         </a>
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a href="#" class="nav-link active">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Page one</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Page two</p>
-                                </a>
-                            </li>
-                        </ul>
+
                     </li>
                     <li class="nav-item">
                         <a href="{{url('/dashboard/categories')}}" class="nav-link">
                             <i class="nav-icon fas fa-list"></i>
                             <p>
-                               Categories
+                                Categories
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{url('/dashboard/skills')}}" class="nav-link">
+                            <i class="nav-icon fas fa-brain"></i>
+                            <p>
+                                Skills
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{url('/dashboard/exams')}}" class="nav-link">
+                            <i class="nav-icon fas fa-clipboard"></i>
+                            <p>
+                                Exams
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{url('/dashboard/students')}}" class="nav-link">
+                            <i class="nav-icon fas fa-user-graduate"></i>
+                            <p>
+                                Students
+                            </p>
+                        </a>
+                    </li>
+                    @if(\Illuminate\Support\Facades\Auth::user()->role->name == 'superadmin')
+                    <li class="nav-item">
+                        <a href="{{url('/dashboard/admins')}}" class="nav-link">
+                            <i class="nav-icon fas fa-user-cog"></i>
+                            <p>
+                                Admins
+                            </p>
+                        </a>
+                    </li>
+                    @endif
+
+                    <li class="nav-item">
+                        <a href="{{url('/dashboard/messages')}}" class="nav-link">
+                            <i class="nav-icon fas fa-envelope"></i>
+                            <p>
+                                Messages
                             </p>
                         </a>
                     </li>

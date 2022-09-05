@@ -13,7 +13,16 @@ class ExamController extends Controller
     public function start($examId, Request $request)
     {
         $user = Auth::user();
-        $user->exams()->attach($examId);
+        if(! $user->exams->contains($examId)){
+            $user->exams()->attach($examId);
+        }
+        else{
+            $user->exams()->updateExistingPivot($examId,
+            [
+               'status' => 'closed',
+            ]);
+        }
+
 
         $request->session()->flash('prev', "start/$examId");
 
@@ -80,14 +89,16 @@ class ExamController extends Controller
 
         $timeMins = $submitTime->diffInMinutes($startTime);
         //update pivot row
-        if ($timeMins > $pivotRow->duration_mins) {
+//        dd($pivotRow->duration_mins);
+        if ($timeMins < $pivotRow->duration_mins) {
             $score = 0;
         }
-        $user->exams()->updateExistingPivot($examId, [
+
+       $d= $user->exams()->updateExistingPivot($examId, [
             'score' => $score,
             'time_mins' => $timeMins
         ]);
-
+//dd($score);
         $request->session()->flash("success", "You finished exam successfully with score $score %");
         return redirect(url("exams/show/$examId"));
     }

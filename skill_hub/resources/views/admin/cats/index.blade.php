@@ -26,6 +26,7 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-12">
+                        @include('admin.inc.messages')
                         <div class="card">
                             <div class="card-header">
                                 <h3 class="card-title">All Categories</h3>
@@ -66,16 +67,23 @@
                                             </td>
 
                                             <td>
-                                                <button type="button" class="btn btn-sm btn-info"
+                                                <button type="button"
+                                                        class="btn btn-sm btn-info edit-btn"
                                                         data-toggle="modal"
-                                                        data-target="#edit-modal">
+                                                        data-target="#edit-modal"
+                                                        data-name-ar="{{$cat->name('ar')}}"
+                                                        data-name-en="{{$cat->name('en')}}"
+                                                        data-id="{{$cat->id}}">
                                                     <i class="fas fa-edit"></i>
                                                 </button>
                                                 <a href="{{url("dashboard/categories/delete/$cat->id")}}"
                                                    class="btn btn-sm btn-danger">
                                                     <i class="fas fa-trash"></i>
                                                 </a>
-
+                                                <a href="{{url("dashboard/categories/toggle/$cat->id")}}"
+                                                   class="btn btn-sm btn-secondary">
+                                                    <i class="fas fa-toggle-on"></i>
+                                                </a>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -108,6 +116,7 @@
                     </button>
                 </div>
                 <div class="modal-body my-3">
+                    @include('admin.inc.errors')
                     <form id="add-form" method="post" action="{{url('dashboard/categories/store')}}">
                         @csrf
                         <div class="row">
@@ -143,7 +152,7 @@
     {{--End of create Category--}}
 
     {{--Update Category--}}
-    <div class="modal fade" id="modal-lg" style="display: none;" aria-hidden="true">
+    <div class="modal fade" id="edit-modal" style="display: none;" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -153,21 +162,23 @@
                     </button>
                 </div>
                 <div class="modal-body my-3">
+                    @include('admin.inc.errors')
                     <form id="edit-form" method="post" action="{{url('dashboard/categories/update')}}">
                         @csrf
+                        <input type="hidden" name="id" id="edit-form-id">
                         <div class="row">
                             <div class="col-6">
                                 <div class="form-group">
                                     <label>Name (en)</label>
-                                    <input type="text" name="name_en" class="form-control" id=""
-                                           placeholder="Enter Name In English">
+                                    <input type="text" name="name_en" class="form-control"
+                                           placeholder="Enter Name In English" id="edit-form-name-en">
                                 </div>
                             </div>
                             <div class="col-6">
 
                                 <div class="form-group">
                                     <label>Name (ar)</label>
-                                    <input type="text" name="name_ar" class="form-control" id=""
+                                    <input type="text" name="name_ar" class="form-control" id="edit-form-name-ar"
                                            placeholder="Enter Name In Arabic">
                                 </div>
                             </div>
@@ -187,4 +198,20 @@
     </div>
     {{--End of Update Category--}}
 
+@endsection
+
+@section('scripts')
+    <script>
+        $('.edit-btn').click(function () {
+            let id = $(this).attr('data-id');
+            let nameEn = $(this).attr('data-name-en');
+            let nameAr = $(this).attr('data-name-ar');
+
+            // console.log(id,nameEn,nameAr);
+            $('#edit-form-id').val(id);
+            $('#edit-form-name-en').val(nameEn);
+            $('#edit-form-name-ar').val(nameAr);
+
+        })
+    </script>
 @endsection

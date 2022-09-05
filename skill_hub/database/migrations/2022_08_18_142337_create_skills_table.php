@@ -17,7 +17,7 @@ class CreateSkillsTable extends Migration
             $table->id();
             $table->foreignId('cat_id')->constrained();
             $table->string('name');
-            $table->string('img',100);
+            $table->string('img',255);
             $table->boolean('active')->default(true);
             $table->timestamps();
         });

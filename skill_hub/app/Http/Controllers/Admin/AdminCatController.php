@@ -6,12 +6,13 @@ use App\Http\Controllers\Controller;
 use App\Models\Cat;
 use Illuminate\Http\Request;
 
+
 class AdminCatController extends Controller
 {
     public function index()
     {
 
-        $data['cats'] = Cat::orderBy('id','DESC')->paginate(10);
+        $data['cats'] = Cat::orderBy('id', 'DESC')->paginate(10);
         return view('admin.cats.index')->with($data);
     }
 
@@ -28,17 +29,29 @@ class AdminCatController extends Controller
                 'ar' => $request->name_ar,
             ]),
         ]);
+        $request->session()->flash('msg', 'row added successfully');
 
         return back();
     }
 
-    public function delete(Cat $cat){
-        $cat->delete();
+    public function delete(Cat $cat, Request $request)
+    {
+        try {
+            $cat->delete();
+            $msg = "row deleted successfully";
+        } catch (\Exception $e) {
+            $msg = "can't delete this row";
+        }
+
+        $request->session()->flash('msg', $msg);
+
         return back();
 
 
     }
-    public function update(Request $request){
+
+    public function update(Request $request)
+    {
         $request->validate([
             'id' => 'required|exists:cats,id',
             'name_en' => 'required|string|max:50',
@@ -51,9 +64,17 @@ class AdminCatController extends Controller
                 'ar' => $request->name_ar,
             ]),
         ]);
-
+        $request->session()->flash('msg', 'row updated successfully');
         return back();
 
 
+    }
+
+    public function toggle(Cat $cat)
+    {
+        $cat->update([
+            'active' => !$cat->active
+        ]);
+        return back();
     }
 }
